@@ -24,7 +24,7 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
 
     fun setItems(items: List<MainEntity>?) {
         this.items = items as ArrayList<MainEntity>;
-        notifyDataSetChanged();
+        updateList()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
@@ -43,6 +43,10 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
         }else{
             return 0;
         }
+    }
+
+    fun updateList() {
+        notifyDataSetChanged()
     }
 }
 
