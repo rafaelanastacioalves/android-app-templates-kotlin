@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.EntityDetailsInteractor
-import timber.log.Timber
 
 
 internal class LiveDataEntityDetailsViewModel : ViewModel() {
@@ -17,7 +16,6 @@ internal class LiveDataEntityDetailsViewModel : ViewModel() {
     val entityDetailsInteractor: EntityDetailsInteractor = EntityDetailsInteractor()
 
     fun loadData(entityId: String?) : MutableLiveData<Resource<EntityDetails>> {
-        Timber.i("LiveDataEntityDetailsViewModel loadData")
 
         entityDetails.postValue(Resource.loading())
         entityDetailsInteractor.execute(viewModelScope,

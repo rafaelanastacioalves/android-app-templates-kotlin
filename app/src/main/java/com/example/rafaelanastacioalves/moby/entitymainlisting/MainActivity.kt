@@ -20,7 +20,6 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailActivity
 import com.example.rafaelanastacioalves.moby.entitydetailing.EntityDetailsFragment
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
@@ -47,15 +46,13 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
     private fun subscribe() {
         mLiveDataMainEntityListViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
-            Timber.d("On Changed")
             populateRecyclerView(mainEntities)
         })
     }
 
     private fun setupViews() {
         setContentView(R.layout.activity_main)
-        Timber.tag("LifeCycles")
-        Timber.i("onCreate Activity")
+
     }
 
     private fun setupRecyclerView() {
@@ -73,8 +70,6 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
     private fun populateRecyclerView(list: Resource<List<MainEntity>>?) {
         if (list == null) {
             mainEntityAdapter!!.setItems(null)
-            //TODO add any error managing
-            Timber.w("Nothing returned from Main Entity List API")
 
         } else if (list.data!=null) {
             mainEntityAdapter!!.setItems(list.data)
