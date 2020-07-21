@@ -1,12 +1,13 @@
 # My personal studies with kotlin
+![tela de listagem](captures/)
+
+![tela de detalhes](captures/)
 
 ## Descrição Geral
 
 Um template que utiliza conceitos e tecnologias aprendidas por mim.
 
-![tela de listagem](captures/)
-
-![tela de detalhes](captures/)
+![tela de detalhes](captures/android_arch.png)
 
 ## Descrição técnica
 
