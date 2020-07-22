@@ -1,5 +1,6 @@
 package com.example.rafaelanastacioalves.moby.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
@@ -50,8 +51,10 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             }
         } catch (exception: Exception) {
             if (exception is HttpException) {
+                Log.e("HttpException", exception.message())
                 treatHttpException(exception)
             } else {
+                Log.e("DataBase", exception.message)
                 result = Resource.error(Resource.Status.GENERIC_ERROR,
                         null,
                         null)
