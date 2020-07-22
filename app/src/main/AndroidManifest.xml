@@ -12,19 +12,19 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".entitymainlisting.MainActivity">
+		<activity android:name="com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".entitydetailing.EntityDetailActivity"
-		          android:parentActivityName=".entitymainlisting.MainActivity"
+		<activity android:name="com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailActivity"
+		          android:parentActivityName="com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity"
 		          android:theme="@style/AppTheme.NoActionBar">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.example.rafaelanastacioalves.moby.entitymainlisting.MainActivity" />
+				android:value="com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity" />
 		</activity>
 	</application>
 

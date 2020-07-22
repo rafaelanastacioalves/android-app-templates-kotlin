@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.example.rafaelanastacioalves.moby.entitymainlisting.MainActivity
+import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity
 import com.example.rafaelanastacioalves.moby.repository.database.AppDataBase
 import com.example.rafaelanastacioalves.moby.util.RestServiceTestHelper.getStringFromFile
 import com.example.rafaelanastacioalves.moby.util.ViewMatcher

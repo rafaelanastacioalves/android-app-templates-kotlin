@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.entitydetailing
+package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 
 
 import android.os.Bundle
