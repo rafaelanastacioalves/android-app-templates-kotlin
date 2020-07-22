@@ -13,6 +13,7 @@ abstract class AppDataBase : RoomDatabase() {
 
     companion object {
 
+        val databaseName : String = "applicationDB"
         private lateinit var context: Context
         private val INSTANCE: AppDataBase by lazy {
             synchronized(this) {
@@ -28,10 +29,11 @@ abstract class AppDataBase : RoomDatabase() {
             return INSTANCE
         }
 
+
         private fun buildDatabase(context: Context): AppDataBase {
             return Room.databaseBuilder(context.applicationContext,
                     AppDataBase::class.java,
-                    "applicationDB").build()
+                    databaseName).build()
         }
     }
 }
