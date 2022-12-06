@@ -14,7 +14,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     val viewModelScope = CoroutineScope(Dispatchers.IO)
     private lateinit var result: Resource<ResultType>
 
-    abstract suspend fun makeCall(): ResultType?
+    abstract suspend fun fecthFromHttp(): ResultType?
 
     abstract suspend fun getFromDB(): ResultType?
 
@@ -23,7 +23,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     private suspend fun fetchFromNetwork() {
         val resultData: ResultType?
         try {
-            resultData = makeCall()
+            resultData = fecthFromHttp()
             result = Resource(Resource.Status.SUCCESS, resultData, null)
 
         } catch (exception: Exception) {
@@ -44,7 +44,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             result = if (localData != null) {
                 Resource(Resource.Status.SUCCESS, localData, null)
             } else {
-                val resultData: ResultType? = makeCall()
+                val resultData: ResultType? = fecthFromHttp()
                 saveIntoDB(resultData)
                 Resource(Resource.Status.SUCCESS, getFromDB(), null)
 
