@@ -1,7 +1,7 @@
 package com.example.rafaelanastacioalves.moby.repository.http
 
-import com.example.rafaelanastacioalves.moby.BuildConfig
 
+import com.example.rafaelanastacioalves.moby.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -30,7 +30,7 @@ class EntityDetailActivity : AppCompatActivity() {
                     .commit()
 
 
-            supportPostponeEnterTransition()
+//            supportPostponeEnterTransition()
         }
     }
 

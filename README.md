@@ -12,9 +12,9 @@ Um template que utiliza conceitos e tecnologias aprendidas por mim.
 ## Descrição técnica
 
 Utilizei as seguintes bibliotecas:
-- ***: : 
+- **Retrofit 2:**: : For http fetch
 
-- ***: : 
+- **Coroutines**: :
 
 - ***: : 
 

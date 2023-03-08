@@ -1,6 +1,7 @@
 package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 
 
+import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
+import com.google.accompanist.themeadapter.material.MdcTheme
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.*
+import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.view.*
 
 
 /**
@@ -25,6 +28,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         loadData()
     }
 
@@ -37,7 +41,13 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflateViews(inflater, container)
+        val views = inflateViews(inflater, container)
+        views.composeView.setContent {
+            MdcTheme {
+
+            }
+        }
+        return views
     }
 
 
@@ -60,19 +70,22 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun setViewsWith(entityDetails: EntityDetails?) {
 
-        detail_entity_detail_name!!.text = entityDetails?.price
-        setupActionBarWithTitle(entityDetails?.title ?: "")
-        Picasso.get()
-                .load(entityDetails?.imageUrl)
-                .into(entity_detail_imageview, object : Callback {
-                    override fun onSuccess() {
-                        activity!!.supportStartPostponedEnterTransition()
-                    }
-
-                    override fun onError(e: Exception) {
-
-                    }
-                })
+//        detail_entity_detail_name!!.text = entityDetails?.price
+//        setupActionBarWithTitle(entityDetails?.title ?: "")
+//        val placeHolder: StateListDrawable = requireContext().resources.getDrawable(R.drawable.ic_placeholder_map_selector) as StateListDrawable;
+//
+//        Picasso.get()
+//                .load(entityDetails?.imageUrl)
+//                .placeholder(placeHolder)
+//                .into(entity_detail_imageview, object : Callback {
+//                    override fun onSuccess() {
+//                        activity!!.supportStartPostponedEnterTransition()
+//                    }
+//
+//                    override fun onError(e: Exception) {
+//
+//                    }
+//                })
 
 
     }

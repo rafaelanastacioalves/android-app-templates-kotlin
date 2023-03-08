@@ -54,7 +54,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                 Log.e("HttpException", exception.message())
                 treatHttpException(exception)
             } else {
-                Log.e("DataBase", exception.message)
+                Log.e("DataBase", exception.message ?: "")
                 result = Resource.error(Resource.Status.GENERIC_ERROR,
                         null,
                         null)
