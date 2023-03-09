@@ -9,7 +9,7 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.EntityDetailsInteractor
 
 
-internal class LiveDataEntityDetailsViewModel : ViewModel() {
+ class EntityDetailsViewModel : ViewModel() {
 
     val entityDetails = MutableLiveData<Resource<EntityDetails>>()
 

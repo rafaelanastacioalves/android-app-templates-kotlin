@@ -1,7 +1,6 @@
 package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 
 
-import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.google.accompanist.themeadapter.material.MdcTheme
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.*
 import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.view.*
 
 
@@ -24,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.view.*
  * A simple [Fragment] subclass.
  */
 class EntityDetailsFragment : Fragment(), View.OnClickListener {
-    lateinit private var mLiveDataEntityDetailsViewModel: LiveDataEntityDetailsViewModel
+    lateinit private var mEntityDetailsViewModel: EntityDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +30,8 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun loadData() {
         val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
-        mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataEntityDetailsViewModel::class.java)
-        mLiveDataEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
+        mEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(EntityDetailsViewModel::class.java)
+        mEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
 
     }
 
@@ -44,7 +40,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
         val views = inflateViews(inflater, container)
         views.composeView.setContent {
             MdcTheme {
-
+                EntityDetailsCompose(mEntityDetailsViewModel)
             }
         }
         return views

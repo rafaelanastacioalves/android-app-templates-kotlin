@@ -1,7 +1,7 @@
 package com.example.rafaelanastacioalves.moby.domain.entities
 
 class Resource<T> constructor(
-        status: Status,
+        val status: Status,
         val data: T?,
         var message: String?) {
 
