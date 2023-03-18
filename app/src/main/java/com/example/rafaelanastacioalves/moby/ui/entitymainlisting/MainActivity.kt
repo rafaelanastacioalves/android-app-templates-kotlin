@@ -1,6 +1,7 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 
+import MainScreen
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -19,35 +20,43 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailActivity
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailsFragment
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
+import androidx.activity.compose.setContent
+import com.example.rafaelanastacioalves.moby.ui.theme.ProjectTheme
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
     private val mClickListener = this
     private var mainEntityAdapter: MainEntityAdapter? = null
     private var mRecyclerView: RecyclerView? = null
-    private val mLiveDataMainEntityListViewModel: LiveDataMainEntityListViewModel by lazy {
-        ViewModelProvider(this).get(LiveDataMainEntityListViewModel::class.java)
+    private val mMainScreenViewModel: MainScreenViewModel by lazy {
+        ViewModelProvider(this).get(MainScreenViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupViews()
-        setupRecyclerView()
-        subscribe()
+
+        setContent {
+            ProjectTheme {
+                MainScreen(mMainScreenViewModel)
+            }
+        }
+//        setupViews()
+//        setupRecyclerView()
+//        subscribe()
         loadData()
 
     }
 
     private fun loadData() {
-        mLiveDataMainEntityListViewModel.loadDataIfNecessary()
+        mMainScreenViewModel.loadDataIfNecessary()
     }
 
 
-    private fun subscribe() {
-        mLiveDataMainEntityListViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
-            populateRecyclerView(mainEntities)
-        })
-    }
+//    private fun subscribe() {
+//        mMainScreenViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
+//            populateRecyclerView(mainEntities)
+//        })
+//    }
 
     private fun setupViews() {
         setContentView(R.layout.activity_main)

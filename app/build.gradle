@@ -32,8 +32,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.3.2'
     }
-
-    testBuildType "instrumentation"
+//    testBuildType "instrumentation"  // is causing issues with jetpack compose preview tool
     buildTypes {
 
         buildTypes.each {
@@ -57,6 +56,8 @@ android {
 
         }
     }
+
+
 }
 
 dependencies {
@@ -72,6 +73,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:' + androidxEspresso
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:'+ androidxEspresso
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
 
     //http + retrofit + gson
     implementation "com.squareup.retrofit2:converter-gson:$retrofitExt"
@@ -107,7 +109,7 @@ dependencies {
 
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
     implementation(composeBom)
-    androidTestImplementation(composeBom)
+//    androidTestImplementation(composeBom)
 
     implementation "androidx.compose.runtime:runtime"
     implementation "androidx.compose.ui:ui"
@@ -116,9 +118,10 @@ dependencies {
     implementation "androidx.compose.material:material"
     implementation "androidx.compose.runtime:runtime-livedata"
     debugImplementation "androidx.compose.ui:ui-tooling"
+    implementation 'androidx.activity:activity-compose:1.6.1'
     implementation "com.google.accompanist:accompanist-themeadapter-material:0.28.0"
     implementation "androidx.compose.ui:ui-tooling-preview"
-    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    debugImplementation 'com.github.bumptech.glide:glide:4.14.2'
     // Skip this if you don't want to use integration libraries or configure Glide.
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"

@@ -10,6 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -36,12 +37,13 @@ fun EntityDetailsCompose(viewModel: EntityDetailsViewModel) {
 private fun EntityDetailContent(entityDetail: EntityDetails) {
     Surface(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            GlideImage(modifier = Modifier.fillMaxWidth() , contentScale = ContentScale.Crop, model = entityDetail.imageUrl, contentDescription = entityDetail.description){
+            GlideImage(modifier = Modifier.fillMaxWidth().testTag("DetailImage") , contentScale = ContentScale.Crop, model = entityDetail.imageUrl, contentDescription = entityDetail.description){
                 it.placeholder(R.drawable.ic_placeholder_map_selector)
             }
             Text(text = entityDetail.title)
         }
     }
+
 }
 
 

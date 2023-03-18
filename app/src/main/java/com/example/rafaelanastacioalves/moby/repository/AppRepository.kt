@@ -32,7 +32,7 @@ object AppRepository {
                 appDao.saveMainEntityList(resultData)
             }
 
-        }.fromHttpAndDB()
+        }.fromHttpOnly()
     }
 
     suspend fun mainEntityAdditional(): Resource<List<MainEntity>> {
