@@ -22,7 +22,6 @@ I used the following libraries:
 
 - **Android Architecture Components**: : 
 
-- ***: : 
 
 ## Tests
 
