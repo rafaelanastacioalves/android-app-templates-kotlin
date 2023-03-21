@@ -29,11 +29,4 @@ Utilizei as seguintes bibliotecas:
 
 Os testes utilizam o buildtype ```instrumentation``` para rodar, pois forçamos que o app seja buildado para apontar para localhost durante os testes.
 
-<style>
-  .images-container {
-    display: flex;
-  }
-  .images-container img {
-    margin-right: 10px;
-  }
-</style>
+
