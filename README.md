@@ -14,13 +14,13 @@ Um template que utiliza conceitos e tecnologias aprendidas por mim.
 ## Descrição técnica
 
 Utilizei as seguintes bibliotecas:
-- **Retrofit 2:**: : For http fetch
+- **Retrofit 2:**: :
 
 - **Coroutines**: :
 
-- ***: : 
+- **Jetpack Compose**: : 
 
-- ***: : 
+- **Android Architecture Components**: : 
 
 - ***: : 
 
@@ -28,5 +28,6 @@ Utilizei as seguintes bibliotecas:
 ## Testes
 
 Os testes utilizam o buildtype ```instrumentation``` para rodar, pois forçamos que o app seja buildado para apontar para localhost durante os testes.
+(No momento instáveis por causa da migração para jetpack compose)
 
 
