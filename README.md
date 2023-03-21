@@ -1,5 +1,4 @@
-# My personal studies with Kotlin
-
+# My personal template with the latest Android technologies and best practices
 <div class="images-container">
   <img src="captures/Screenshot_1523145822.png" alt="listing screen" width="400"/>
   <img src="captures/Screenshot_1523145868.png" alt="details screen" width="400"/>
