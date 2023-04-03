@@ -3,9 +3,7 @@ package com.example.rafaelanastacioalves.moby.domain.interactors
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.*
 
 class MainEntityListInteractor :
         Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>() {
@@ -20,23 +18,14 @@ class MainEntityListInteractor :
     override suspend fun run(requestValues: RequestValues?): Resource<List<MainEntity>> {
         var finalList: List<MainEntity> = ArrayList<MainEntity>()
 
-        withContext(Dispatchers.IO) {
-
             // in this examaple we could call sequentially or wait for one result so we get some data to make another call, just saying...
-            val deferredOne = async { appRepository.mainEntity() }
-            val deferredTwo = async { appRepository.mainEntityAdditional() }
+            val deferredOne = appRepository.mainEntity()
+            val deferredTwo =  appRepository.mainEntityAdditional()
 
-            var resultOne: List<MainEntity>? = deferredOne.await().data
-            var resultTwo: List<MainEntity>? = deferredTwo.await().data
+            val resultOne: List<MainEntity> = deferredOne.data.orEmpty()
+            val resultTwo: List<MainEntity> = deferredTwo.data.orEmpty()
 
-            resultOne?.let { finalList = finalList.union(resultOne).toList() }
-            resultTwo?.let { finalList = finalList.union(resultTwo).toList() }
-
-        }
-
-        val result = Resource.success(finalList)
-
-        return result
+            return Resource.success(resultOne + resultTwo)
 
 
     }

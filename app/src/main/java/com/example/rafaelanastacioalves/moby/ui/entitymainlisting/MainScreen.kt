@@ -28,8 +28,9 @@ fun MainScreen(viewModel: MainScreenViewModel) {
             )
         }
     ) {
+        val viewState = viewModel.mainEntityListLiveData.observeAsState()
         LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = it) {
-            items(items = viewModel.entityList) { mainEntity ->
+            items(items = viewState.value?.stateList.orEmpty()) { mainEntity ->
                 MainEntityListItem(mainEntity = mainEntity)
             }
         }

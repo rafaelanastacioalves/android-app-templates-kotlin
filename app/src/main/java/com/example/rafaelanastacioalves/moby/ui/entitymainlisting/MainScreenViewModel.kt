@@ -7,13 +7,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
+import kotlinx.coroutines.flow.Flow
+import androidx.lifecycle.*
+
 
 
 class MainScreenViewModel : ViewModel() {
 
-
-    private val _mainEntityListLiveData = MutableLiveData<Resource<List<MainEntity>>>();
     private val mainEntityListInteractor: MainEntityListInteractor = MainEntityListInteractor()
+
+    val mainEntityListLiveData : LiveData<ViewState> = loadDataIfNecessary().map {
+        ViewState(status = it.status, data = it.data, message = it.message)
+    }
 
     private val _entityList = loadMockData().toMutableStateList()
     val entityList : List<MainEntity>
@@ -24,19 +29,18 @@ class MainScreenViewModel : ViewModel() {
         MainEntity("3",title = "title3", price = "10", "3", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg")
     )
 
-    fun loadDataIfNecessary(){
-        if (_mainEntityListLiveData.value == null){
-            mainEntityListInteractor.execute(viewModelScope,null, {
-                handle(it)
-            })
-        }
+    fun loadDataIfNecessary() : LiveData<Resource<List<MainEntity>>>{
+            return mainEntityListInteractor.execute(viewModelScope,null).asLiveData()
     }
 
-    private fun handle(listResource: Resource<List<MainEntity>>) {
-       if (listResource.data!=null) {
-            _entityList.clear()
-            _entityList.addAll(listResource.data)
-       }
+
+
+     class ViewState(
+        status: Status = Status.LOADING,
+        data: List<MainEntity>? = null,
+        message: String? = null) : Resource<List<MainEntity>>(status, data, message) {
+
+            val stateList = this.data.orEmpty().toMutableStateList()
     }
 
 }

@@ -1,31 +1,28 @@
 package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.EntityDetailsInteractor
 
 
- class EntityDetailsViewModel : ViewModel() {
+class EntityDetailsViewModel : ViewModel() {
 
-    val entityDetails = MutableLiveData<Resource<EntityDetails>>()
-
+    val _entityDetails = MutableLiveData<Resource<EntityDetails>>()
+    val entityDetails: LiveData<Resource<EntityDetails>> = _entityDetails
     val entityDetailsInteractor: EntityDetailsInteractor = EntityDetailsInteractor()
 
-    fun loadData(entityId: String?) : MutableLiveData<Resource<EntityDetails>> {
-
-        entityDetails.postValue(Resource.loading())
-        entityDetailsInteractor.execute(viewModelScope,
-                entityId?.let{EntityDetailsInteractor.RequestValues(it)},{ it -> handle(it)})
-        return entityDetails
+    fun loadData(entityId: String?): LiveData<Resource<EntityDetails>> {
+        _entityDetails.postValue(Resource.loading())
+        return entityDetailsInteractor.execute(
+            scope = viewModelScope,
+            params =  entityId?.let {id ->
+                EntityDetailsInteractor.RequestValues(id)
+            }
+        ).asLiveData()
     }
 
-    private fun handle(it: Resource<EntityDetails>?) {
-        entityDetails.postValue(it)
-    }
 
 
 }

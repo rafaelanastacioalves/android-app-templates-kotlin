@@ -29,7 +29,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadData() {
-        val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
+        val mEntityId = requireArguments().getString(ARG_ENTITY_ID)
         mEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(EntityDetailsViewModel::class.java)
         mEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
 
