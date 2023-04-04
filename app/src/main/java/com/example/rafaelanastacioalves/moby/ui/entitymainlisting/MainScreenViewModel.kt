@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.Flow
 import androidx.lifecycle.*
 
 
+/**
+ * Learned from the following links:
+ * [Jetpack Compose State codelab](https://developer.android.com/codelabs/jetpack-compose-state?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fjetpack-compose-for-android-developers-1%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fjetpack-compose-state#10)
+ * and
+ * [Flow Codelab](https://developer.android.com/codelabs/advanced-kotlin-coroutines#10)
+ */
 
 class MainScreenViewModel : ViewModel() {
 

@@ -3,6 +3,7 @@ package com.example.rafaelanastacioalves.moby.domain.interactors
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
 class MainEntityListInteractor :
@@ -15,17 +16,20 @@ class MainEntityListInteractor :
         appRepository = AppRepository
     }
 
-    override suspend fun run(requestValues: RequestValues?): Resource<List<MainEntity>> {
-        var finalList: List<MainEntity> = ArrayList<MainEntity>()
+    override suspend fun run(requestValues: RequestValues?, flowCollector: FlowCollector<Resource<List<MainEntity>>>){
+        var finalList: MutableList<MainEntity> = ArrayList<MainEntity>()
+        var number = 0
+        while (true) {
+            delay(2000)
+            number++
+            finalList.add(0,
+                MainEntity("equal id","Entity number $number", "price", "reais", "url")
+            )
+            flowCollector.emit(
+                Resource.success(finalList)
+            )
 
-            // in this examaple we could call sequentially or wait for one result so we get some data to make another call, just saying...
-            val deferredOne = appRepository.mainEntity()
-            val deferredTwo =  appRepository.mainEntityAdditional()
-
-            val resultOne: List<MainEntity> = deferredOne.data.orEmpty()
-            val resultTwo: List<MainEntity> = deferredTwo.data.orEmpty()
-
-            return Resource.success(resultOne + resultTwo)
+        }
 
 
     }
