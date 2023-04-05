@@ -21,6 +21,9 @@ I used the following libraries:
 
 - **Android Architecture Components**: : 
 
+## Using flow library
+
+To see an example of usage of the Flow library, please go [here](https://github.com/rafaelanastacioalves/android-app-templates-kotlin/blob/with_jjetpacl_compose_alternative_with_flow/app/src/main/java/com/example/rafaelanastacioalves/moby/domain/interactors/MainEntityListInteractor.kt)
 
 ## Tests
 
