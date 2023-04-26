@@ -9,6 +9,7 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import kotlinx.coroutines.flow.Flow
 import androidx.lifecycle.*
+import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 
 
 /**
@@ -18,17 +19,15 @@ import androidx.lifecycle.*
  * [Flow Codelab](https://developer.android.com/codelabs/advanced-kotlin-coroutines#10)
  */
 
-class MainScreenViewModel : ViewModel() {
 
-    private val mainEntityListInteractor: MainEntityListInteractor = MainEntityListInteractor()
+
+class MainScreenViewModel(val mainEntityListInteractor : Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) : ViewModel() {
+
 
     val mainEntityListLiveData : LiveData<ViewState> = loadDataIfNecessary().map {
         ViewState(status = it.status, data = it.data, message = it.message)
     }
 
-    private val _entityList = loadMockData().toMutableStateList()
-    val entityList : List<MainEntity>
-        get() = _entityList
 
     fun loadMockData() = listOf<MainEntity>(MainEntity("1",title = "title1", price = "10", "1", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg"),
         MainEntity("2",title = "title2", price = "10", "2", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg"),
@@ -38,6 +37,8 @@ class MainScreenViewModel : ViewModel() {
     fun loadDataIfNecessary() : LiveData<Resource<List<MainEntity>>>{
             return mainEntityListInteractor.execute(viewModelScope,null).asLiveData()
     }
+
+
 
 
 

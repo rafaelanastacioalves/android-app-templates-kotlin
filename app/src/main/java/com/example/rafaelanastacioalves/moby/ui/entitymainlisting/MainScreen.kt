@@ -14,6 +14,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModel
 
 @Composable
@@ -49,7 +50,7 @@ fun MainEntityListItem(modifier: Modifier = Modifier,mainEntity: MainEntity) {
 @Preview
 @Composable
 fun PreviewMainScreen() {
-    val viewModel = MainScreenViewModel(/* passe aqui os argumentos necessários */)
+    val viewModel = MainScreenViewModel(MainEntityListInteractor())
 
     MainScreen(viewModel = viewModel)
 }

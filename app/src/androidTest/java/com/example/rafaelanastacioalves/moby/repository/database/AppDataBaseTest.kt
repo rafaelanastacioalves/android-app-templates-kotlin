@@ -1,7 +1,6 @@
 package com.example.rafaelanastacioalves.moby.repository.database
 
 import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
@@ -17,8 +16,7 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class AppDataBaseTest {
 
-    @get:Rule
-    var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule();
+
 
     private val context: Context by lazy {
         ApplicationProvider.getApplicationContext() as Context
