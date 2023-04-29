@@ -8,9 +8,9 @@ import com.example.rafaelanastacioalves.moby.repository.database.DAO
 import com.example.rafaelanastacioalves.moby.repository.http.APIClient
 import com.example.rafaelanastacioalves.moby.repository.http.ServiceGenerator
 
-object AppRepository {
-    private val appDao: DAO = AppDataBase.getInstance().appDAO()
-    var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
+class AppRepository(
+    private val appDao: DAO,
+    var apiClient: APIClient) {
 
     suspend fun mainEntity(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {

@@ -51,3 +51,10 @@ class MainScreenViewModel(val mainEntityListInteractor : Interactor<Resource<Lis
     }
 
 }
+
+@Suppress("UNCHECKED_CAST")
+class MainScreenViewModelFactory(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) : ViewModelProvider.NewInstanceFactory() {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>) = (MainScreenViewModel(mainEntityListInteractor) as T)
+
+}

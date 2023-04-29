@@ -6,14 +6,10 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.flow.FlowCollector
 
-class EntityDetailsInteractor :
+class EntityDetailsInteractor(
+    private val appRepository: AppRepository
+) :
     Interactor<Resource<EntityDetails>, EntityDetailsInteractor.RequestValues>() {
-    val appRepository: AppRepository
-
-    init {
-        appRepository = AppRepository
-    }
-
 
     class RequestValues(val requestId: String) : Interactor.RequestValues
 

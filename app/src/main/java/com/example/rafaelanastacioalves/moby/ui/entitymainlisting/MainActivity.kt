@@ -10,7 +10,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,80 +19,25 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailActivity
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailsFragment
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
-import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import com.example.rafaelanastacioalves.moby.application.MainApplication
+import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
+import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.theme.ProjectTheme
 
-class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
+class MainActivity : AppCompatActivity(){
 
-    private val mClickListener = this
-    private var mainEntityAdapter: MainEntityAdapter? = null
-    private var mRecyclerView: RecyclerView? = null
-    private val mMainScreenViewModel: MainScreenViewModel by lazy {
-        ViewModelProvider(this).get(MainScreenViewModel::class.java)
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContent {
-            ProjectTheme {
-                MainScreen(mMainScreenViewModel)
-            }
-        }
-//        setupViews()
-//        setupRecyclerView()
-//        subscribe()
-        loadData()
-
-    }
-
-    private fun loadData() {
-        mMainScreenViewModel.loadDataIfNecessary()
-    }
-
-
-//    private fun subscribe() {
-//        mMainScreenViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
-//            populateRecyclerView(mainEntities)
-//        })
-//    }
-
-    private fun setupViews() {
         setContentView(R.layout.activity_main)
 
-    }
-
-    private fun setupRecyclerView() {
-        mRecyclerView = findViewById<View>(R.id.main_entity_list) as RecyclerView
-        val layoutManager = LinearLayoutManager(applicationContext)
-        mRecyclerView!!.layoutManager = layoutManager
-        if (mainEntityAdapter == null) {
-            mainEntityAdapter = MainEntityAdapter(this)
-        }
-        mainEntityAdapter!!.setRecyclerViewClickListener(mClickListener)
-        mRecyclerView!!.adapter = mainEntityAdapter
-    }
-
-
-    private fun populateRecyclerView(list: Resource<List<MainEntity>>?) {
-        if (list == null) {
-            mainEntityAdapter!!.setItems(null)
-
-        } else if (list.data!=null) {
-            mainEntityAdapter!!.setItems(list.data)
-        }
-
-    }
-
-
-    override fun onClick(view: View, position: Int) {
-        val MainEntity = mainEntityAdapter!!.getItems()!!.get(position)
-
-        val transitionImageView = view.findViewById<View>(R.id.main_entity_imageview)
-        startActivityByVersion(MainEntity, transitionImageView as AppCompatImageView)
 
 
     }
+
 
     private fun startActivityByVersion(mainEntity: MainEntity, transitionImageView: AppCompatImageView) {
         val i = Intent(this, EntityDetailActivity::class.java)
@@ -110,3 +54,5 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
         }
     }
 }
+
+

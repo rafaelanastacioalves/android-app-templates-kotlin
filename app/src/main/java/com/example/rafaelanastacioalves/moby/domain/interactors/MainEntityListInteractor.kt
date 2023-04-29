@@ -6,15 +6,10 @@ import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 
-class MainEntityListInteractor :
+class MainEntityListInteractor(appRepository: AppRepository) :
         Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>() {
 
-    val appRepository: AppRepository
 
-
-    init {
-        appRepository = AppRepository
-    }
 
     override suspend fun run(requestValues: RequestValues?, flowCollector: FlowCollector<Resource<List<MainEntity>>>){
         var finalList: MutableList<MainEntity> = ArrayList<MainEntity>()
