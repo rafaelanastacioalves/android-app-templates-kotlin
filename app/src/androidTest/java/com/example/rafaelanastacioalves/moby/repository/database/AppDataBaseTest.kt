@@ -3,6 +3,8 @@ package com.example.rafaelanastacioalves.moby.repository.database
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.rafaelanastacioalves.moby.application.MainApplication
+import com.example.rafaelanastacioalves.moby.application.ServiceLocator
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
@@ -18,18 +20,17 @@ class AppDataBaseTest {
 
 
 
-    private val context: Context by lazy {
-        ApplicationProvider.getApplicationContext() as Context
+    private val context: MainApplication by lazy {
+        ApplicationProvider.getApplicationContext() as MainApplication
     }
 
     private val testedDAO: DAO by lazy {
-        AppDataBase.getInstance().appDAO()
+        ServiceLocator.createDatabase(context).appDAO()
     }
 
     @Test
     fun when_savingMainEntity_Should_ReturnMainEntity() {
 
-        AppDataBase.setupAtApplicationStartup(context)
         testedDAO.delteAllMainEntities()
 
         val mainEntityList: List<MainEntity> = Arrays.asList(
@@ -61,7 +62,6 @@ class AppDataBaseTest {
 
     @Test
     fun when_ThereIsNoMainEntity_Should_Return_EmptyList() {
-        AppDataBase.setupAtApplicationStartup(context)
         val testedDAO: DAO = testedDAO
 
         testedDAO.delteAllMainEntities()
