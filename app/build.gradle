@@ -76,21 +76,22 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:' + androidxEspresso
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:'+ androidxEspresso
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.2"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.3"
     testImplementation "androidx.test.ext:junit-ktx:1.1.5"
 
 
     // Dependencies for Android instrumented unit tests
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.
 
-    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.0-beta01")
-    debugImplementation("androidx.fragment:fragment-testing:1.6.0-beta01")
+    debugImplementation("androidx.fragment:fragment-testing-manifest:1.6.0-rc01")
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.3"
+    debugImplementation("androidx.fragment:fragment-testing:1.6.0-rc01")
 
     testImplementation "androidx.test:core-ktx:1.5.0"
 
-    testImplementation "org.robolectric:robolectric:4.9"
+    testImplementation "org.robolectric:robolectric:4.9.2"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
 
     //http + retrofit + gson

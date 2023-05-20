@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,9 +23,10 @@ import com.example.rafaelanastacioalves.moby.application.MainApplication
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModel
+import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface
 
 @Composable
-fun MainScreen(viewModel: MainScreenViewModel, onNavigate: (Int) -> Unit) {
+fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (Int) -> Unit) {
 
     Scaffold(
         topBar = {
@@ -36,7 +38,8 @@ fun MainScreen(viewModel: MainScreenViewModel, onNavigate: (Int) -> Unit) {
         }
     ) {
         val viewState = viewModel.mainEntityListLiveData.observeAsState()
-        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = it) {
+        LazyColumn(modifier = Modifier.fillMaxSize()
+            .testTag("list"), contentPadding = it, ) {
             items(items = viewState.value?.stateList.orEmpty()) { mainEntity ->
                 MainEntityListItem(mainEntity = mainEntity, modifier = Modifier.clickable {
                     onNavigate(R.id.entityDetailsFragment)

@@ -5,20 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.application.MainApplication
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.theme.ProjectTheme
-import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.composeView
 
 /**
  * A simple [Fragment] subclass.
@@ -29,7 +24,7 @@ class HomeFragment : Fragment() {
     private val mClickListener = this
     private var mainEntityAdapter: MainEntityAdapter? = null
     private var mRecyclerView: RecyclerView? = null
-    private val mMainScreenViewModel: MainScreenViewModel by viewModels<MainScreenViewModel> {
+    private val mMainScreenViewModel: MainScreenViewModelInterface by viewModels<MainScreenViewModel> {
         MainScreenViewModelFactory(MainEntityListInteractor((requireActivity().application as MainApplication).getAppRepository))
     }
 
@@ -46,9 +41,7 @@ class HomeFragment : Fragment() {
         loadData()
         return ComposeView(requireContext()).apply {
             setContent {
-                ProjectTheme {
-                    MainScreen(mMainScreenViewModel, { id -> findNavController().navigate(id)})
-                }
+                setHomeFragment(mMainScreenViewModel) { id -> findNavController().navigate(id) }
             }
         }
     }
@@ -71,5 +64,18 @@ class HomeFragment : Fragment() {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment()
+    }
+}
+
+@Composable
+fun setHomeFragment(
+    mainScreenViewModel: MainScreenViewModelInterface,
+    onNavigate: (Int) -> Unit,
+) {
+    ProjectTheme {
+        MainScreen(
+            mainScreenViewModel,
+            onNavigate
+        )
     }
 }

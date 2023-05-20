@@ -10,6 +10,7 @@ import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListIn
 import kotlinx.coroutines.flow.Flow
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
+import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.*
 
 
 /**
@@ -20,41 +21,23 @@ import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
  */
 
 
+class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
+    ViewModel(),
+    MainScreenViewModelInterface {
 
-class MainScreenViewModel(val mainEntityListInteractor : Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) : ViewModel() {
 
-
-    val mainEntityListLiveData : LiveData<ViewState> = loadDataIfNecessary().map {
-        ViewState(status = it.status, data = it.data, message = it.message)
+    override fun loadDataIfNecessary(): LiveData<Resource<List<MainEntity>>> {
+        return mainEntityListInteractor.execute(viewModelScope, null).asLiveData()
     }
 
-
-    fun loadMockData() = listOf<MainEntity>(MainEntity("1",title = "title1", price = "10", "1", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg"),
-        MainEntity("2",title = "title2", price = "10", "2", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg"),
-        MainEntity("3",title = "title3", price = "10", "3", "https://thoughtcard.com/wp-content/uploads/2016/03/Trip-vs-Vacation-1030x689.jpg")
-    )
-
-    fun loadDataIfNecessary() : LiveData<Resource<List<MainEntity>>>{
-            return mainEntityListInteractor.execute(viewModelScope,null).asLiveData()
-    }
-
-
-
-
-
-     class ViewState(
-        status: Status = Status.LOADING,
-        data: List<MainEntity>? = null,
-        message: String? = null) : Resource<List<MainEntity>>(status, data, message) {
-
-            val stateList = this.data.orEmpty().toMutableStateList()
-    }
 
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainScreenViewModelFactory(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) : ViewModelProvider.NewInstanceFactory() {
+class MainScreenViewModelFactory(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
+    ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>) = (MainScreenViewModel(mainEntityListInteractor) as T)
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        (MainScreenViewModel(mainEntityListInteractor) as T)
 
 }
