@@ -3,16 +3,30 @@ package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 
 class MainScreenViewModelMock : MainScreenViewModelInterface {
-    override fun loadDataIfNecessary(): LiveData<Resource<List<MainEntity>>> {
+
+    override val mainEntityListLiveData: LiveData<MainScreenViewModelInterface.ViewState>
+
+    init {
+        mainEntityListLiveData = loadDataIfNecessary()
+    }
+    override fun loadDataIfNecessary(): LiveData<MainScreenViewModelInterface.ViewState> {
         return liveData {
-            Resource.loading<Resource<List<MainEntity>>>()
-            Resource.success(loadMockData())
+            emit(Resource.loading())
+            emit(Resource.success(loadMockData()))
+        }.map {
+            MainScreenViewModelInterface.ViewState(
+                status = it.status,
+                data = it.data,
+                message = it.message
+            )
         }
     }
+
 
 
     fun loadMockData() = listOf<MainEntity>(

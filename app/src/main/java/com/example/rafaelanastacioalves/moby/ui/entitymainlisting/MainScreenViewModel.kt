@@ -22,13 +22,23 @@ import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenView
 
 
 class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
-    ViewModel(),
-    MainScreenViewModelInterface {
+    ViewModel(), MainScreenViewModelInterface{
 
+    override val mainEntityListLiveData: LiveData<ViewState>
 
-    override fun loadDataIfNecessary(): LiveData<Resource<List<MainEntity>>> {
-        return mainEntityListInteractor.execute(viewModelScope, null).asLiveData()
+    init {
+        mainEntityListLiveData = loadDataIfNecessary()
     }
+    override fun loadDataIfNecessary(): LiveData<ViewState> {
+        return mainEntityListInteractor.execute(viewModelScope, null).asLiveData().map {
+            ViewState(
+                status = it.status,
+                data = it.data,
+                message = it.message
+            )
+        }
+    }
+
 
 
 }
