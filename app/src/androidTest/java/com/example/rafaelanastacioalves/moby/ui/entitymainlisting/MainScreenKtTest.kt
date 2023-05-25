@@ -1,9 +1,17 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnyChild
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onChild
+import androidx.compose.ui.test.onChildAt
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 
@@ -27,7 +35,10 @@ class MainScreenKtTest {
         }
 
         composeTestRule.onRoot().printToLog("testSemantics")
-        Thread.sleep(2000L)
+        composeTestRule.onNodeWithTag("list").apply {
+            assertIsDisplayed()
+            onChildAt(0).assert(matcher = hasAnyChild(hasText("title1")))
+        }
     }
     @After
     fun tearDown() {
