@@ -3,39 +3,64 @@ package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.common.DataBoundListAdapter
+import com.example.rafaelanastacioalves.moby.databinding.MainEntityItemBinding
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
+import com.example.rafaelanastacioalves.moby.listeners.DataBoundClickListener
 
-class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewHolder>() {
-    lateinit private var recyclerViewClickListener: RecyclerViewClickListener
+class MainEntityAdapter(context: Context,
+    dataBindingComponent: DataBindingComponent) :
+    DataBoundListAdapter<MainEntity, MainEntityItemBinding>(
+        diffCallback = object : DiffUtil.ItemCallback<MainEntity>() {
+            override fun areItemsTheSame(oldItem: MainEntity, newItem: MainEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: MainEntity, newItem: MainEntity): Boolean {
+                return oldItem.title == newItem.title
+                        &&
+                        oldItem.price == newItem.price
+            }
+
+        }
+    ) {
+    private var dataBoundClickListener: DataBoundClickListener<MainEntity>? = null
     private var items: List<MainEntity>? = null
 
     private val mContext: Context = context
 
-    fun setRecyclerViewClickListener(aRVC: RecyclerViewClickListener ) {
-        this.recyclerViewClickListener = aRVC;
+    fun setRecyclerViewClickListener(aRVC: DataBoundClickListener<MainEntity> ) {
+        this.dataBoundClickListener = aRVC;
     }
 
     fun getItems(): List<MainEntity>? {
         return this.items;
     }
 
-    fun setItems(items: List<MainEntity>?) {
-        this.items = items as ArrayList<MainEntity>;
-        updateList()
+    override fun createBinding(parent: ViewGroup): MainEntityItemBinding {
+        val binding = DataBindingUtil.inflate<MainEntityItemBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.main_entity_item,
+            parent,
+            false,
+            dataBindingComponent
+        )
+
+        binding.root.setOnClickListener{ view ->
+            binding.mainEntity?.let { item ->
+                dataBoundClickListener?.onClick(view, item)
+            }
+        }
+        return binding
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
-        return MainEntityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.detail_entity_viewholder, parent, false), recyclerViewClickListener);
+    override fun bind(binding: MainEntityItemBinding, item: MainEntity) {
+        binding.mainEntity = item
     }
 
-    override fun onBindViewHolder(holder: MainEntityViewHolder,position: Int ) {
-        val aRepoW = getItems()?.get(position) as MainEntity;
-        holder.bind(aRepoW, mContext);
-    }
 
     override fun getItemCount(): Int {
         if (getItems() != null){
@@ -45,8 +70,5 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
         }
     }
 
-    fun updateList() {
-        notifyDataSetChanged()
-    }
 }
 
