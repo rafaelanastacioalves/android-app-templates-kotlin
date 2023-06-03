@@ -3,6 +3,7 @@ package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.example.rafaelanastacioalves.moby.R
@@ -12,7 +13,8 @@ import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.DataBoundClickListener
 
 class MainEntityAdapter(context: Context,
-    dataBindingComponent: DataBindingComponent) :
+    val dataBindingComponent: DataBindingComponent
+) :
     DataBoundListAdapter<MainEntity, MainEntityItemBinding>(
         diffCallback = object : DiffUtil.ItemCallback<MainEntity>() {
             override fun areItemsTheSame(oldItem: MainEntity, newItem: MainEntity): Boolean {
@@ -20,25 +22,19 @@ class MainEntityAdapter(context: Context,
             }
 
             override fun areContentsTheSame(oldItem: MainEntity, newItem: MainEntity): Boolean {
-                return oldItem.title == newItem.title
-                        &&
-                        oldItem.price == newItem.price
+                return oldItem.id == newItem.id
             }
 
         }
     ) {
     private var dataBoundClickListener: DataBoundClickListener<MainEntity>? = null
-    private var items: List<MainEntity>? = null
 
-    private val mContext: Context = context
 
     fun setRecyclerViewClickListener(aRVC: DataBoundClickListener<MainEntity> ) {
         this.dataBoundClickListener = aRVC;
     }
 
-    fun getItems(): List<MainEntity>? {
-        return this.items;
-    }
+
 
     override fun createBinding(parent: ViewGroup): MainEntityItemBinding {
         val binding = DataBindingUtil.inflate<MainEntityItemBinding>(
@@ -59,15 +55,6 @@ class MainEntityAdapter(context: Context,
 
     override fun bind(binding: MainEntityItemBinding, item: MainEntity) {
         binding.mainEntity = item
-    }
-
-
-    override fun getItemCount(): Int {
-        if (getItems() != null){
-            return getItems()!!.size;
-        }else{
-            return 0;
-        }
     }
 
 }

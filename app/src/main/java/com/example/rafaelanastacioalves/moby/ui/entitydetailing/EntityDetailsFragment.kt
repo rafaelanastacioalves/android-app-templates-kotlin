@@ -7,22 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingComponent
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.binding.ActivityDataBindingComponent
+import com.example.rafaelanastacioalves.moby.databinding.FragmentDetailEntityDetailViewBinding
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class EntityDetailsFragment : Fragment(), View.OnClickListener {
+class EntityDetailsFragment : Fragment(), View.OnClickListener {// Required empty public constructor
     lateinit private var mLiveDataEntityDetailsViewModel: LiveDataEntityDetailsViewModel
-
+    lateinit private var binding : FragmentDetailEntityDetailViewBinding
+    private val dataBindingComponent: DataBindingComponent  by lazy { ActivityDataBindingComponent(requireActivity()) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadData()
@@ -31,15 +35,29 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     private fun loadData() {
         val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
         mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataEntityDetailsViewModel::class.java)
-        mLiveDataEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflateViews(inflater, container)
+
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_detail_entity_detail_view,
+            container,
+            false,
+            dataBindingComponent
+        )
+
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.lifecycleOwner = this
+        // o exmeplo removeu este super...
+        binding.entityDetail = mLiveDataEntityDetailsViewModel.entityDetails
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     private fun inflateViews(inflater: LayoutInflater, container: ViewGroup?): View {
         val rootView = inflater.inflate(R.layout.fragment_detail_entity_detail_view, container, false)
@@ -58,25 +76,6 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun setViewsWith(entityDetails: EntityDetails?) {
-
-        detail_entity_detail_name!!.text = entityDetails?.price
-        setupActionBarWithTitle(entityDetails?.title ?: "")
-        Picasso.get()
-                .load(entityDetails?.imageUrl)
-                .into(entity_detail_imageview, object : Callback {
-                    override fun onSuccess() {
-                        activity!!.supportStartPostponedEnterTransition()
-                    }
-
-                    override fun onError(e: Exception) {
-
-                    }
-                })
-
-
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -92,4 +91,4 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
     }
 
 
-}// Required empty public constructor
+}

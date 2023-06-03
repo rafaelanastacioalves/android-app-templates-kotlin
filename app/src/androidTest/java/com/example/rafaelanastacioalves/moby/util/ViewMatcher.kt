@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
 import com.example.rafaelanastacioalves.moby.R
-import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainEntityViewHolder
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 

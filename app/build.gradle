@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion compileSdkVersionExt
@@ -18,23 +17,20 @@ android {
 
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "17"
+
     }
 
-    buildFeatures {
-        compose true
-    }
+
     dataBinding {
         enabled true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.3.2'
-    }
+
 //    testBuildType "instrumentation"  // is causing issues with jetpack compose preview tool
     buildTypes {
 
