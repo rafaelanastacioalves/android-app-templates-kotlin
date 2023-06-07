@@ -35,12 +35,11 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {// Required empt
     private fun loadData() {
         val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
         mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataEntityDetailsViewModel::class.java)
-
+        mLiveDataEntityDetailsViewModel.loadData(mEntityId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_detail_entity_detail_view,
@@ -48,6 +47,18 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {// Required empt
             false,
             dataBindingComponent
         )
+        binding.loadListener = object : Callback {
+            override fun onSuccess() {
+                activity!!.supportStartPostponedEnterTransition()
+                Toast.makeText(requireContext(), "Image Loaded!", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onError(e: Exception) {
+                activity!!.supportStartPostponedEnterTransition()
+                Toast.makeText(requireContext(), "Image NOT Loaded!", Toast.LENGTH_LONG).show()
+
+            }
+        }
 
         return binding.root
     }
@@ -56,6 +67,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {// Required empt
         binding.lifecycleOwner = this
         // o exmeplo removeu este super...
         binding.entityDetail = mLiveDataEntityDetailsViewModel.entityDetails
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -72,15 +84,9 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {// Required empt
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.title = title
 
-
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 
     override fun onClick(v: View) {
         Toast.makeText(activity, "Comprado!", Toast.LENGTH_SHORT).show()

@@ -96,15 +96,11 @@ class MainActivity : AppCompatActivity(), DataBoundClickListener<MainEntity>{
         val i = Intent(this, EntityDetailActivity::class.java)
         i.putExtra(EntityDetailsFragment.ARG_ENTITY_ID, mainEntity.id)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            var bundle: Bundle? = null
-            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
-                    transitionImageView, transitionImageView.transitionName).toBundle()
-            startActivity(i, bundle)
+        var bundle: Bundle? = null
+        bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this@MainActivity,
+                transitionImageView, transitionImageView.transitionName).toBundle()
+        startActivity(i, bundle)
 
-        } else {
-            startActivity(i)
-        }
     }
 
 

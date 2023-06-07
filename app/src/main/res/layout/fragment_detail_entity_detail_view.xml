@@ -11,6 +11,9 @@
 		<variable
 			name="entityDetail"
 			type="LiveData&lt;Resource&lt;EntityDetails>>" />
+		<variable
+			name="loadListener"
+			type="com.squareup.picasso.Callback" />
 	</data>
 
 	<androidx.core.widget.NestedScrollView
@@ -36,6 +39,7 @@
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				app:imageUrl="@{entityDetail.data.imageUrl}"
+				app:loadListener="@{loadListener}"
 				app:srcCompat="@drawable/ic_placeholder_map" />
 
 			<TextView

@@ -16,6 +16,7 @@ class EntityDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_entity_detail)
         setupActionBar()
 
+            supportPostponeEnterTransition()
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
@@ -30,7 +31,6 @@ class EntityDetailActivity : AppCompatActivity() {
                     .commit()
 
 
-            supportPostponeEnterTransition()
         }
     }
 
