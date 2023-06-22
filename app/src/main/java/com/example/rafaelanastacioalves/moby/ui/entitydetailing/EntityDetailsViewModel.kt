@@ -12,9 +12,19 @@ class EntityDetailsViewModel(
     val entityDetailsInteractor: Interactor<Resource<EntityDetails>, EntityDetailsInteractor.RequestValues>
 ) : ViewModel() {
 
-    val _entityDetails = MutableLiveData<Resource<EntityDetails>>()
-    val entityDetails: LiveData<Resource<EntityDetails>> = _entityDetails
+    private val _entityId = MutableLiveData<String?>()
 
+    val entityId: LiveData<String?>
+        get() = _entityId
+
+    private val _entityDetails = MutableLiveData<Resource<EntityDetails>>()
+    val entityDetails: LiveData<Resource<EntityDetails>> = _entityId.switchMap { entityId ->
+        if(entityId == null){
+            MutableLiveData(Resource.loading())
+        }else{
+            loadData(entityId)
+        }
+    }
 
     fun loadData(entityId: String?): LiveData<Resource<EntityDetails>> {
         _entityDetails.postValue(Resource.loading())
@@ -24,6 +34,10 @@ class EntityDetailsViewModel(
                 EntityDetailsInteractor.RequestValues(id)
             }
         ).asLiveData()
+    }
+
+    fun setEntityId(entityId: String?){
+        _entityId.value = entityId
     }
 
 }

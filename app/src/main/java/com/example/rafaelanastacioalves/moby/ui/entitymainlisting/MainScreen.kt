@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -23,23 +24,26 @@ import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenView
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.ViewState
 
 @Composable
-fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (Int) -> Unit) {
+fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (String) -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                }
+            com.example.rafaelanastacioalves.moby.ui.AppBar(
+                modifier = Modifier,
+                textTitle = stringResource(id = R.string.app_name)
             )
         }
     ) {
-        val viewState : State<ViewState?> = viewModel.mainEntityListLiveData.observeAsState()
-        when(viewState.value?.status){
-            Resource.Status.SUCCESS ->  List(it, onNavigate, viewState.value!!.stateList)
+        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.observeAsState()
+        when (viewState.value?.status) {
+            Resource.Status.SUCCESS -> List(it, onNavigate, viewState.value!!.stateList)
             Resource.Status.INTERNAL_SERVER_ERROR -> TODO()
             Resource.Status.GENERIC_ERROR -> TODO()
-            Resource.Status.LOADING -> Text(modifier = Modifier, text = stringResource(R.string.loading))
+            Resource.Status.LOADING -> Text(
+                modifier = Modifier,
+                text = stringResource(R.string.loading)
+            )
+
             null -> {}
         }
 
@@ -49,7 +53,7 @@ fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (Int) -> Uni
 @Composable
 private fun List(
     it: PaddingValues,
-    onNavigate: (Int) -> Unit,
+    onNavigate: (String) -> Unit,
     list: List<MainEntity>,
 ) {
     LazyColumn(
@@ -60,7 +64,7 @@ private fun List(
     ) {
         items(items = list) { mainEntity ->
             MainEntityListItem(mainEntity = mainEntity, modifier = Modifier.clickable {
-                onNavigate(R.id.entityDetailsFragment)
+                onNavigate(mainEntity.id)
             })
         }
     }
@@ -68,7 +72,7 @@ private fun List(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MainEntityListItem(modifier: Modifier = Modifier,mainEntity: MainEntity) {
+fun MainEntityListItem(modifier: Modifier = Modifier, mainEntity: MainEntity) {
     Column(modifier) {
         GlideImage(model = mainEntity.imageUrl, contentDescription = mainEntity.title)
         Text(modifier = modifier, text = mainEntity.title)

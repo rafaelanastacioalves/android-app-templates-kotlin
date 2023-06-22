@@ -10,4 +10,6 @@
     <string name="comprar">Comprar</string>
     <string name="detail_entitiy_title_textview">Text</string>
     <string name="loading">LOADING</string>
+    <string name="goBack">Voltar</string>
+    <string name="error">ERROR:</string>
 </resources>

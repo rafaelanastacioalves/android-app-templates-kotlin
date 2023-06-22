@@ -18,7 +18,7 @@ class MainEntityListInteractor(appRepository: AppRepository) :
             delay(2000)
             number++
             finalList.add(0,
-                MainEntity("equal id","Entity number $number", "price", "reais", "url")
+                MainEntity("$number","Entity number $number", "price", "reais", "url")
             )
             flowCollector.emit(
                 Resource.success(finalList)

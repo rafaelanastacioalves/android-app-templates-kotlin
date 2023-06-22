@@ -14,6 +14,7 @@ import com.example.rafaelanastacioalves.moby.ui.theme.ProjectTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 
 /**
  * A simple [Fragment] subclass.
@@ -28,11 +29,6 @@ class HomeFragment : Fragment() {
         MainScreenViewModelFactory(MainEntityListInteractor((requireActivity().application as MainApplication).getAppRepository))
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -41,9 +37,14 @@ class HomeFragment : Fragment() {
         loadData()
         return ComposeView(requireContext()).apply {
             setContent {
-                setHomeFragment(mMainScreenViewModel) { id -> findNavController().navigate(id) }
+                setHomeFragment(mMainScreenViewModel) { id -> goToDetail(id) }
             }
         }
+    }
+
+    private fun goToDetail(id: String) {
+        val direction = HomeFragmentDirections.actionHomeFragmentToEntityDetailsFragment(id)
+        findNavController().navigate(direction)
     }
 
     private fun loadData() {
@@ -70,7 +71,7 @@ class HomeFragment : Fragment() {
 @Composable
 fun setHomeFragment(
     mainScreenViewModel: MainScreenViewModelInterface,
-    onNavigate: (Int) -> Unit,
+    onNavigate: (String) -> Unit,
 ) {
     ProjectTheme {
         MainScreen(
