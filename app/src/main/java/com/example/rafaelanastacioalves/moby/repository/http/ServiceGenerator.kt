@@ -13,19 +13,22 @@ object ServiceGenerator {
 
 
     fun <S> createService(serviceClass: Class<S>): S {
+        val httpClient = OkHttpClient.Builder()
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = if (BuildConfig.DEBUG)
+            HttpLoggingInterceptor.Level.BODY
+        else
+            HttpLoggingInterceptor.Level.NONE
 
         val builder = Retrofit.Builder()
-                .baseUrl(BuildConfig.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BuildConfig.API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
 
-        val httpClient = OkHttpClient.Builder()
-
-        val interceptor = HttpLoggingInterceptor()
-
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val retrofit = builder.client(httpClient
+        val retrofit = builder.client(
+            httpClient
                 .addInterceptor(interceptor)
-                .build()).build()
+                .build()
+        ).build()
         return retrofit.create(serviceClass)
     }
 
