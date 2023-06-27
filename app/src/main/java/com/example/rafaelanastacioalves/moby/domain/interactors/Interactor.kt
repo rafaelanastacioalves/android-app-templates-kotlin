@@ -12,7 +12,7 @@ abstract class Interactor<out T, in R : Interactor.RequestValues> {
 
     abstract suspend fun run(requestValue: R?, flowCollector: FlowCollector<T>)
 
-     open fun execute(
+    fun execute(
             scope: CoroutineScope,
             params: R?
     ) : Flow<T> {

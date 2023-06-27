@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.*
 class MainEntityListInteractor(appRepository: AppRepository) :
         Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>() {
 
-
-
     override suspend fun run(requestValues: RequestValues?, flowCollector: FlowCollector<Resource<List<MainEntity>>>){
         var finalList: MutableList<MainEntity> = ArrayList<MainEntity>()
         var number = 0
