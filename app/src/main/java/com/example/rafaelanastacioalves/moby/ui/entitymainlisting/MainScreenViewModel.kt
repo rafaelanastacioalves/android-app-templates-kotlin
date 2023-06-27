@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.*
+import kotlinx.coroutines.flow.map
 
 
 /**
@@ -24,13 +25,13 @@ import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenView
 class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
     ViewModel(), MainScreenViewModelInterface{
 
-    override val mainEntityListLiveData: LiveData<ViewState>
+    override val mainEntityListLiveData: Flow<ViewState>
 
     init {
         mainEntityListLiveData = loadDataIfNecessary()
     }
-    override fun loadDataIfNecessary(): LiveData<ViewState> {
-        return mainEntityListInteractor.execute(viewModelScope, null).asLiveData().map {
+    override fun loadDataIfNecessary(): Flow<ViewState> {
+        return mainEntityListInteractor.execute(viewModelScope, null).map {
             ViewState(
                 status = it.status,
                 data = it.data,

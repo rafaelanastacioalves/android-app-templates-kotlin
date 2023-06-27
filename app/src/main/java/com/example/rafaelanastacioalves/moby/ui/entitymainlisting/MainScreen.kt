@@ -34,7 +34,7 @@ fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (String) -> 
             )
         }
     ) {
-        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.observeAsState()
+        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.collectAsState(ViewState(Resource.Status.LOADING))
         when (viewState.value?.status) {
             Resource.Status.SUCCESS -> List(it, onNavigate, viewState.value!!.stateList)
             Resource.Status.INTERNAL_SERVER_ERROR -> TODO()

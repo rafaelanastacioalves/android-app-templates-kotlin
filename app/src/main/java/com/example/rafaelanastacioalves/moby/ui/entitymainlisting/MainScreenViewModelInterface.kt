@@ -7,12 +7,13 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface MainScreenViewModelInterface {
-    fun loadDataIfNecessary(): LiveData<ViewState>
+    fun loadDataIfNecessary(): Flow<ViewState>
 
 
-    val mainEntityListLiveData : LiveData<ViewState>
+    val mainEntityListLiveData : Flow<ViewState>
     class ViewState(
         status: Status = Status.LOADING,
         data: List<MainEntity>? = null,

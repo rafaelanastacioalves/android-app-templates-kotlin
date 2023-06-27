@@ -34,7 +34,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        loadData()
         return ComposeView(requireContext()).apply {
             setContent {
                 setHomeFragment(mMainScreenViewModel) { id -> goToDetail(id) }
@@ -47,9 +46,6 @@ class HomeFragment : Fragment() {
         findNavController().navigate(direction)
     }
 
-    private fun loadData() {
-        mMainScreenViewModel.loadDataIfNecessary()
-    }
 
 
     companion object {
