@@ -11,7 +11,11 @@ import kotlinx.coroutines.flow.Flow
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 
 /**
@@ -24,20 +28,24 @@ import kotlinx.coroutines.flow.map
 
 class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
     ViewModel(), MainScreenViewModelInterface{
+    val _mainEntityListLiveData = MutableStateFlow(ViewState())
 
-    override val mainEntityListLiveData: Flow<ViewState>
+    override val mainEntityListLiveData: StateFlow<ViewState> = _mainEntityListLiveData.asStateFlow()
 
     init {
-        mainEntityListLiveData = loadDataIfNecessary()
+        loadDataIfNecessary()
     }
-    override fun loadDataIfNecessary(): Flow<ViewState> {
-        return mainEntityListInteractor.execute(viewModelScope, null).map {
-            ViewState(
-                status = it.status,
-                data = it.data,
-                message = it.message
-            )
+    override fun loadDataIfNecessary() {
+        viewModelScope.launch {
+            mainEntityListInteractor.execute(viewModelScope, null).collect {
+                _mainEntityListLiveData.value = ViewState(
+                    status = it.status,
+                    data = it.data,
+                    message = it.message
+                )
+            }
         }
+
     }
 
 

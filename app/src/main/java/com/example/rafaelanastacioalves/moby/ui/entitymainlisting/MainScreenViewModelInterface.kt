@@ -10,7 +10,7 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface MainScreenViewModelInterface {
-    fun loadDataIfNecessary(): Flow<ViewState>
+    fun loadDataIfNecessary()
 
 
     val mainEntityListLiveData : Flow<ViewState>

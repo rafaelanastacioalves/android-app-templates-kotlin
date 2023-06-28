@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rafaelanastacioalves.moby.R
@@ -34,7 +35,7 @@ fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (String) -> 
             )
         }
     ) {
-        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.collectAsState(ViewState(Resource.Status.LOADING))
+        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.collectAsStateWithLifecycle(ViewState(Resource.Status.LOADING))
         when (viewState.value?.status) {
             Resource.Status.SUCCESS -> List(it, onNavigate, viewState.value!!.stateList)
             Resource.Status.INTERNAL_SERVER_ERROR -> TODO()

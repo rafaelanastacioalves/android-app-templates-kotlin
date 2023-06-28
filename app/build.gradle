@@ -151,6 +151,8 @@ dependencies {
     // Skip this if you don't want to use integration libraries or configure Glide.
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
 
 
     def nav_version = "2.5.3"
