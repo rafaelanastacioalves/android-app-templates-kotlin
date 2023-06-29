@@ -61,6 +61,7 @@ private fun List(
             .fillMaxSize()
             .testTag("list"),
         contentPadding = it,
+        state = rememberLazyListState()
     ) {
         items(items = list) { mainEntity ->
             MainEntityListItem(mainEntity = mainEntity, modifier = Modifier.clickable {
