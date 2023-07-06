@@ -1,5 +1,6 @@
 package com.example.rafaelanastacioalves.moby.domain.interactors
 
+import android.util.Log
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
@@ -15,6 +16,7 @@ class MainEntityListInteractor(appRepository: AppRepository) :
         while (true) {
             delay(2000)
             number++
+            Log.d(javaClass.name, "emitting in flow a number value $number")
             finalList.add(0,
                 MainEntity("$number","Entity number $number", "price", "reais", "url")
             )

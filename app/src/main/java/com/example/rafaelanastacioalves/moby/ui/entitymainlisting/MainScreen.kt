@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -21,7 +19,6 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModel
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface
-import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.ViewState
 
 @Composable
 fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (String) -> Unit) {
@@ -34,9 +31,11 @@ fun MainScreen(viewModel: MainScreenViewModelInterface, onNavigate: (String) -> 
             )
         }
     ) {
-        val viewState: State<ViewState?> = viewModel.mainEntityListLiveData.collectAsState(ViewState(Resource.Status.LOADING))
-        when (viewState.value?.status) {
-            Resource.Status.SUCCESS -> List(it, onNavigate, viewState.value!!.stateList)
+        val viewState = remember { viewModel.mainScreeViewState.value }
+        val status =
+            viewState.status.value
+        when (status) {
+            Resource.Status.SUCCESS -> List(it, onNavigate, viewState.stateList)
             Resource.Status.INTERNAL_SERVER_ERROR -> TODO()
             Resource.Status.GENERIC_ERROR -> TODO()
             Resource.Status.LOADING -> Text(
