@@ -1,5 +1,7 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +11,9 @@ import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListIn
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -22,8 +27,10 @@ import kotlinx.coroutines.launch
 
 class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
     ViewModel(), MainScreenViewModelInterface{
+    val _mainEntityListLiveData = MutableStateFlow(MainScreeViewState())
+    override val mainScreeViewState: StateFlow<MainScreeViewState>
+        get() = _mainEntityListLiveData.asStateFlow()
 
-    override var mainScreeViewState = mutableStateOf(MainScreeViewState())
     init {
         loadDataIfNecessary()
     }
@@ -31,11 +38,11 @@ class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List
         viewModelScope.launch {
             mainEntityListInteractor.execute(viewModelScope, null).collect {
                 when(it.status){
-                    Resource.Status.SUCCESS -> mainScreeViewState.value.setStateList(it.data.orEmpty())
+                    Resource.Status.SUCCESS -> _mainEntityListLiveData.value.setStateList(it.data.orEmpty())
                     Resource.Status.INTERNAL_SERVER_ERROR, Resource.Status.GENERIC_ERROR -> {
-                        mainScreeViewState.value = MainScreeViewState(mutableStateOf(it.status), message = it.message)
+                        _mainEntityListLiveData.value = MainScreeViewState(mutableStateOf(it.status), message = it.message)
                     }
-                    Resource.Status.LOADING -> mainScreeViewState.value = MainScreeViewState(status = mutableStateOf(Resource.Status.LOADING))
+                    Resource.Status.LOADING -> _mainEntityListLiveData.value = MainScreeViewState(status = mutableStateOf(Resource.Status.LOADING))
                 }
             }
         }

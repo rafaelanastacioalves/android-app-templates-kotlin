@@ -1,7 +1,6 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
