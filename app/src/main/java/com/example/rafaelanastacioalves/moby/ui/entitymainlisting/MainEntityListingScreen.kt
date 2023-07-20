@@ -14,8 +14,8 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.rafaelanastacioalves.moby.R
 import com.example.rafaelanastacioalves.moby.application.MainApplication
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModel
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface

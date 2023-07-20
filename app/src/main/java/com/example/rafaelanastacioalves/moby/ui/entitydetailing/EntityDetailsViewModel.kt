@@ -2,8 +2,8 @@ package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 
 
 import androidx.lifecycle.*
-import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.EntityDetails
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.EntityDetailsInteractor
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 
@@ -14,9 +14,6 @@ class EntityDetailsViewModel(
 
     private val _entityId = MutableLiveData<String?>()
 
-    val entityId: LiveData<String?>
-        get() = _entityId
-
     private val _entityDetails = MutableLiveData<Resource<EntityDetails>>()
     val entityDetails: LiveData<Resource<EntityDetails>> = _entityId.switchMap { entityId ->
         if(entityId == null){
@@ -26,7 +23,7 @@ class EntityDetailsViewModel(
         }
     }
 
-    fun loadData(entityId: String?): LiveData<Resource<EntityDetails>> {
+    private fun loadData(entityId: String?): LiveData<Resource<EntityDetails>> {
         _entityDetails.postValue(Resource.loading())
         return entityDetailsInteractor.execute(
             scope = viewModelScope,

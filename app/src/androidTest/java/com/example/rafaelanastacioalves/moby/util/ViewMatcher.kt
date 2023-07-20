@@ -5,14 +5,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
 import com.example.rafaelanastacioalves.moby.R
-import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainEntityViewHolder
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 
 
  class ViewMatcher {
      companion object {
-         fun showMainItemWithTitle(title: String, position: Int): Matcher<in View?>? {
+         fun showMainItemWithTitle(title: String, position: Int): Matcher<in View?> {
              return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
                  override fun describeTo(description: Description) {
                      description.appendText("Item with title " + title + " at position " +

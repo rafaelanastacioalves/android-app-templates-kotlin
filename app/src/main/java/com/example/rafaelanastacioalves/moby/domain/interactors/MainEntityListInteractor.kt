@@ -1,8 +1,8 @@
 package com.example.rafaelanastacioalves.moby.domain.interactors
 
 import android.util.Log
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

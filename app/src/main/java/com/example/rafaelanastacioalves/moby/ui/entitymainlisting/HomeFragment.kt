@@ -7,24 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.application.MainApplication
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.theme.ProjectTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class HomeFragment : Fragment() {
-    private val mClickListener = this
-    private var mainEntityAdapter: MainEntityAdapter? = null
-    private var mRecyclerView: RecyclerView? = null
+
     private val mMainScreenViewModel: MainScreenViewModelInterface by viewModels<MainScreenViewModel> {
         MainScreenViewModelFactory(MainEntityListInteractor((requireActivity().application as MainApplication).getAppRepository))
     }
@@ -32,11 +24,11 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return ComposeView(requireContext()).apply {
             setContent {
-                setHomeFragment(mMainScreenViewModel) { id -> goToDetail(id) }
+                SetHomeFragment(mMainScreenViewModel) { id -> goToDetail(id) }
             }
         }
     }
@@ -65,7 +57,7 @@ class HomeFragment : Fragment() {
 }
 
 @Composable
-fun setHomeFragment(
+fun SetHomeFragment(
     mainScreenViewModel: MainScreenViewModelInterface,
     onNavigate: (String) -> Unit,
 ) {

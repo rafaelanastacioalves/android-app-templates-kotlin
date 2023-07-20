@@ -1,8 +1,8 @@
 package com.example.rafaelanastacioalves.moby.domain.interactors
 
 
-import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.EntityDetails
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.flow.FlowCollector
 

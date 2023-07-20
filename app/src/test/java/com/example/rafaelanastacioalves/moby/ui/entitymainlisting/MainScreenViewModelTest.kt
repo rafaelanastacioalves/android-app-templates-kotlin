@@ -3,8 +3,8 @@ package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import kotlinx.coroutines.flow.FlowCollector

@@ -1,12 +1,10 @@
 package com.example.rafaelanastacioalves.moby.repository
 
-import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.repository.database.AppDataBase
+import com.example.rafaelanastacioalves.moby.domain.model.EntityDetails
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.repository.database.DAO
 import com.example.rafaelanastacioalves.moby.repository.http.APIClient
-import com.example.rafaelanastacioalves.moby.repository.http.ServiceGenerator
 
 class AppRepository(
     private val appDao: DAO,
@@ -14,7 +12,7 @@ class AppRepository(
 
     suspend fun mainEntity(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun fecthFromHttp(): List<MainEntity>? {
+            override suspend fun fecthFromHttp(): List<MainEntity> {
 
                 return apiClient.getMainEntityList()
             }
@@ -37,7 +35,7 @@ class AppRepository(
 
     suspend fun mainEntityAdditional(): Resource<List<MainEntity>> {
         return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun fecthFromHttp(): List<MainEntity>? {
+            override suspend fun fecthFromHttp(): List<MainEntity> {
                 return apiClient.getMainEntityListAdditional()
             }
 
@@ -54,7 +52,7 @@ class AppRepository(
 
     suspend fun entityDetails(requestId: String): Resource<EntityDetails> {
         return object : NetworkBoundResource<EntityDetails, EntityDetails>() {
-            override suspend fun fecthFromHttp(): EntityDetails? {
+            override suspend fun fecthFromHttp(): EntityDetails {
                 return apiClient.getEntityDetails(requestId)
             }
 

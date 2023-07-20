@@ -4,11 +4,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 
 /**
- * Simple ViewState Class for Compose library usage. If one "status" or "datalist" changes, a recomposition should occurk
+ * Simple ViewState Class for Compose library usage. If one "status" or "datalist" changes, a recomposition should occur.
+ * Based on the a complex [ViewState class](https://github.com/android/compose-samples/blob/9ceb220fcd9cce6aadb28cbe160441be2c2793b3/Crane/app/src/main/java/androidx/compose/samples/crane/calendar/model/CalendarUiState.kt)
  */
 data class MainScreeViewState(
     var status: MutableState<Any> = mutableStateOf(Resource.Status.LOADING),

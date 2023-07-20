@@ -19,13 +19,7 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name="com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailActivity"
-		          android:parentActivityName="com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity"
-		          android:theme="@style/AppTheme.NoActionBar">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value="com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainActivity" />
-		</activity>
+
 	</application>
 
 </manifest>

@@ -1,7 +1,7 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
 import android.content.Context
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Test
@@ -9,7 +9,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.doNothing
 import org.mockito.Mockito.verify
-import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 import kotlin.collections.ArrayList

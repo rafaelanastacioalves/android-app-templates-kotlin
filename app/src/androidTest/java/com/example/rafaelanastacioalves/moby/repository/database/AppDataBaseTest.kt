@@ -1,15 +1,13 @@
 package com.example.rafaelanastacioalves.moby.repository.database
 
-import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rafaelanastacioalves.moby.application.MainApplication
 import com.example.rafaelanastacioalves.moby.application.ServiceLocator
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.StringContains
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*

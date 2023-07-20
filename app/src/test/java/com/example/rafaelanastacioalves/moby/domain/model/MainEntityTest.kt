@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.domain.entities
+package com.example.rafaelanastacioalves.moby.domain.model
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo

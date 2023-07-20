@@ -3,8 +3,8 @@ package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 
 class MainScreenViewModelMock : MainScreenViewModelInterface {
 

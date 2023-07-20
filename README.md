@@ -1,12 +1,13 @@
 # My personal template with the latest Android technologies and best practices
 <div class="images-container">
-  <img src="captures/Screenshot_1523145822.png" alt="listing screen" width="400"/>
   <img src="captures/Screenshot_1523145868.png" alt="details screen" width="400"/>
 </div>
 
 ## General Description
 
 A template that uses concepts and technologies learned by me.
+
+In this current branch the app keeps listing new numbers each second. Clicking in one of them should show a simple generic detail screen with no much information.
 
 <img src="captures/android_arch.png" alt="details screen" width="400"/>
 
@@ -17,9 +18,15 @@ I used the following libraries:
 
 - **Coroutines**: :
 
-- **Jetpack Compose**: : 
+- **Jetpack Compose**: :
 
-- **Android Architecture Components**: : 
+- **Jetpack Navigation**: :
+
+- **Android Architecture Components**: :
+
+- **Coil**: :
+
+- **Flow**: :
 
 
 ## Tests

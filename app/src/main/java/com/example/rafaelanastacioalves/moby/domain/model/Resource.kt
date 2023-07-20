@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.domain.entities
+package com.example.rafaelanastacioalves.moby.domain.model
 
 open class Resource<T> constructor(
     val status: Status = Status.LOADING,
@@ -8,7 +8,7 @@ open class Resource<T> constructor(
     companion object Factory {
 
         fun <T> success(successData: T?): Resource<T>  {
-            return Resource(Status.SUCCESS,successData, null);
+            return Resource(Status.SUCCESS,successData, null)
         }
 
         fun <T> error(status: Status, data: T?, msg: String?): Resource<T> {

@@ -1,12 +1,10 @@
-package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
+package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
-import com.example.rafaelanastacioalves.moby.domain.entities.Resource
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
@@ -23,7 +21,6 @@ import kotlinx.coroutines.launch
  * and
  * [Flow Codelab](https://developer.android.com/codelabs/advanced-kotlin-coroutines#10)
  */
-
 
 class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
     ViewModel(), MainScreenViewModelInterface{

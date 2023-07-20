@@ -9,9 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceGenerator {
 
-    private val appInterceptor = AppInterceptor()
-
-
     fun <S> createService(serviceClass: Class<S>): S {
         val httpClient = OkHttpClient.Builder()
         val interceptor = HttpLoggingInterceptor()

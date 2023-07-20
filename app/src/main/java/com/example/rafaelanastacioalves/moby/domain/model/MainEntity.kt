@@ -1,4 +1,4 @@
-package com.example.rafaelanastacioalves.moby.domain.entities
+package com.example.rafaelanastacioalves.moby.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -47,9 +47,9 @@ fun AppBar(
 }
 
 @Composable
-fun LoadingScreen(modifier: Modifier) {
+fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .wrapContentSize(align = Alignment.Center)
     ) {

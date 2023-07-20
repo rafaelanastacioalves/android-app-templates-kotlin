@@ -4,11 +4,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
+import com.example.rafaelanastacioalves.moby.domain.model.MainEntity
 
 @Dao
 interface DAO {
-
     @Query("SELECT * FROM mainentity")
     fun getMainEntityList(): List<MainEntity>
 
