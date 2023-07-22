@@ -29,9 +29,9 @@ class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List
         get() = _mainEntityListLiveData.asStateFlow()
 
     init {
-        loadDataIfNecessary()
+        loadData()
     }
-    override fun loadDataIfNecessary() {
+    override fun loadData() {
         viewModelScope.launch {
             mainEntityListInteractor.execute(viewModelScope, null).collect {
                 when(it.status){

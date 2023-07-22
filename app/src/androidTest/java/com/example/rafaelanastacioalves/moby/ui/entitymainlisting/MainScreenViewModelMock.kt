@@ -11,9 +11,9 @@ class MainScreenViewModelMock : MainScreenViewModelInterface {
     override val mainEntityListLiveData: LiveData<MainScreenViewModelInterface.ViewState>
 
     init {
-        mainEntityListLiveData = loadDataIfNecessary()
+        mainEntityListLiveData = loadData()
     }
-    override fun loadDataIfNecessary(): LiveData<MainScreenViewModelInterface.ViewState> {
+    override fun loadData(): LiveData<MainScreenViewModelInterface.ViewState> {
         return liveData {
             emit(Resource.loading())
             emit(Resource.success(loadMockData()))

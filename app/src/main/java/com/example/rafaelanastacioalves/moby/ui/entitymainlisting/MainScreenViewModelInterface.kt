@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
  *
  */
 interface MainScreenViewModelInterface {
-    fun loadDataIfNecessary()
+    fun loadData()
 
     val mainScreeViewState: StateFlow<MainScreeViewState>
 
