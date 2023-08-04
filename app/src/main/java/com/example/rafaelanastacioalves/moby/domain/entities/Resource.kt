@@ -1,9 +1,9 @@
 package com.example.rafaelanastacioalves.moby.domain.entities
 
-class Resource<T> constructor(
-        status: Status,
-        val data: T?,
-        var message: String?) {
+open class Resource<T> constructor(
+    val status: Status = Status.LOADING,
+    val data: T? = null,
+    var message: String? = null) {
 
     companion object Factory {
 

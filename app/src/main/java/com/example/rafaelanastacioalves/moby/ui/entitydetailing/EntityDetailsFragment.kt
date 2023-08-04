@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_detail_entity_detail_view.*
  * A simple [Fragment] subclass.
  */
 class EntityDetailsFragment : Fragment(), View.OnClickListener {
-    lateinit private var mLiveDataEntityDetailsViewModel: LiveDataEntityDetailsViewModel
+    lateinit private var mLiveDataEntityDetailsViewModel: EntityDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class EntityDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun loadData() {
         val mEntityId = arguments!!.getString(ARG_ENTITY_ID)
-        mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(LiveDataEntityDetailsViewModel::class.java)
+        mLiveDataEntityDetailsViewModel = ViewModelProvider.NewInstanceFactory().create(EntityDetailsViewModel::class.java)
         mLiveDataEntityDetailsViewModel.loadData(mEntityId).observe(this, Observer { entityDetails -> setViewsWith(entityDetails?.data) })
 
     }

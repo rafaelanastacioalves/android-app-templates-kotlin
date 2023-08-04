@@ -5,6 +5,7 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.withContext
 
 class MainEntityListInteractor :
@@ -17,7 +18,11 @@ class MainEntityListInteractor :
         appRepository = AppRepository
     }
 
-    override suspend fun run(requestValues: RequestValues?): Resource<List<MainEntity>> {
+    override suspend fun run(
+        requestValue: RequestValues?,
+        flowCollector: FlowCollector<Resource<List<MainEntity>>>,
+    ) {
+
         var finalList: List<MainEntity> = ArrayList<MainEntity>()
 
         withContext(Dispatchers.IO) {
@@ -35,12 +40,13 @@ class MainEntityListInteractor :
         }
 
         val result = Resource.success(finalList)
-
-        return result
-
-
+        flowCollector.emit(
+            result
+        )
     }
 
 
     class RequestValues : Interactor.RequestValues// in this case we don't need nothing for this use case
+
+
 }

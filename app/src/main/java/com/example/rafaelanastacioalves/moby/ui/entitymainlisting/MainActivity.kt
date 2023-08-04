@@ -9,8 +9,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
@@ -19,14 +21,15 @@ import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailActivity
 import com.example.rafaelanastacioalves.moby.ui.entitydetailing.EntityDetailsFragment
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
 
     private val mClickListener = this
     private var mainEntityAdapter: MainEntityAdapter? = null
     private var mRecyclerView: RecyclerView? = null
-    private val mLiveDataMainEntityListViewModel: LiveDataMainEntityListViewModel by lazy {
-        ViewModelProvider(this).get(LiveDataMainEntityListViewModel::class.java)
+    private val mainScreenViewModel: MainScreenViewModel by lazy {
+        ViewModelProvider(this).get(MainScreenViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +42,25 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
     }
 
     private fun loadData() {
-        mLiveDataMainEntityListViewModel.loadDataIfNecessary()
+        mainScreenViewModel.loadDataIfNecessary()
     }
 
-
+    // documentation
+    /**
+     * Here we call a State Flow from viewModel in a secure manner so
+     * we are sure we're not wasting resources when activity is destroyed, etc
+     * As explained in [this link](https://medium.com/androiddevelopers/migrating-from-livedata-to-kotlins-flow-379292f419fb)
+     */
     private fun subscribe() {
-        mLiveDataMainEntityListViewModel.mainEntityListLiveData.observeForever(Observer { mainEntities ->
-            populateRecyclerView(mainEntities)
-        })
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(
+                state = Lifecycle.State.STARTED
+            ){
+                mainScreenViewModel.mainEntityListFlowState.collect{ mainEntities ->
+                    populateRecyclerView(mainEntities)
+                }
+            }
+        }
     }
 
     private fun setupViews() {
