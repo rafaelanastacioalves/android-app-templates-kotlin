@@ -1,17 +1,16 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting;
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
-import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
+import com.example.rafaelanastacioalves.moby.domain.interactors.MainEntityListInteractor
 import com.example.rafaelanastacioalves.moby.ui.entitymainlisting.MainScreenViewModelInterface.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -24,9 +23,10 @@ import kotlinx.coroutines.launch
  */
 
 
-class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
+class MainScreenViewModel :
     ViewModel(), MainScreenViewModelInterface{
     val _mainEntityListFlow = MutableStateFlow(ViewState())
+    private val mainEntityListInteractor: MainEntityListInteractor = MainEntityListInteractor()
 
     override val mainEntityListFlowState: StateFlow<ViewState> = _mainEntityListFlow.asStateFlow()
 
@@ -35,12 +35,7 @@ class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List
     }
     override fun loadDataIfNecessary() {
         viewModelScope.launch {
-            mainEntityListInteractor.execute(viewModelScope, null).stateIn(
-                viewModelScope,
-                initialValue = Resource.loading(),
-                started = WhileSubscribed(5000),
-
-            ).collect {
+            mainEntityListInteractor.execute(viewModelScope, null).collect {
                 _mainEntityListFlow.value = ViewState(
                     status = it.status,
                     data = it.data,
@@ -50,16 +45,5 @@ class MainScreenViewModel(val mainEntityListInteractor: Interactor<Resource<List
         }
 
     }
-
-
-
-}
-
-@Suppress("UNCHECKED_CAST")
-class MainScreenViewModelFactory(val mainEntityListInteractor: Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>) :
-    ViewModelProvider.NewInstanceFactory() {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>) =
-        (MainScreenViewModel(mainEntityListInteractor) as T)
 
 }

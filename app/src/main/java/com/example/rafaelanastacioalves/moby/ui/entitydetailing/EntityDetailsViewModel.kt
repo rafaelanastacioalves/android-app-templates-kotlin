@@ -4,48 +4,47 @@ package com.example.rafaelanastacioalves.moby.ui.entitydetailing
 import androidx.lifecycle.*
 import com.example.rafaelanastacioalves.moby.domain.entities.EntityDetails
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
-import com.example.rafaelanastacioalves.moby.domain.model.EntityDetails
-import com.example.rafaelanastacioalves.moby.domain.model.Resource
 import com.example.rafaelanastacioalves.moby.domain.interactors.EntityDetailsInteractor
-import com.example.rafaelanastacioalves.moby.domain.interactors.Interactor
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.stateIn
 
 
-class EntityDetailsViewModel(
-    val entityDetailsInteractor: Interactor<Resource<EntityDetails>, EntityDetailsInteractor.RequestValues>
-) : ViewModel() {
+class EntityDetailsViewModel : ViewModel() {
 
-    private val _entityId = MutableLiveData<String?>()
-
-    private val _entityDetails = MutableLiveData<Resource<EntityDetails>>()
-    val entityDetails: LiveData<Resource<EntityDetails>> = _entityId.switchMap { entityId ->
+    private val _entityId = MutableStateFlow<String?>("")
+    private val entityDetailsInteractor: EntityDetailsInteractor = EntityDetailsInteractor()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val entityDetails: StateFlow<Resource<EntityDetails>?> = _entityId.flatMapLatest { entityId ->
         if(entityId == null){
-            MutableLiveData(Resource.loading())
+            flowOf(Resource.loading())
         }else{
             loadData(entityId)
         }
-    }
+    }.stateIn(
+        viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = Resource.loading()
+    )
 
-    private fun loadData(entityId: String?): LiveData<Resource<EntityDetails>> {
-        _entityDetails.postValue(Resource.loading())
+    private fun loadData(entityId: String?): Flow<Resource<EntityDetails>?> {
         return entityDetailsInteractor.execute(
             scope = viewModelScope,
             params =  entityId?.let {id ->
                 EntityDetailsInteractor.RequestValues(id)
             }
-        ).asLiveData()
+        )
     }
 
     fun setEntityId(entityId: String?){
         _entityId.value = entityId
     }
 
-}
-
-// make a factory class for EntityDetailsViewModel
-@Suppress("UNCHECKED_CAST")
-class EntityDetailsViewModelFactory(val interactor: EntityDetailsInteractor) :
-    ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = EntityDetailsViewModel(interactor) as T
 }
 
 

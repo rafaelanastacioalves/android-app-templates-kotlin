@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.databinding.DetailEntityViewholderBinding
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
 
 class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewHolder>() {
-    lateinit private var recyclerViewClickListener: RecyclerViewClickListener
+    private lateinit var recyclerViewClickListener: RecyclerViewClickListener
     private var items: List<MainEntity>? = null
 
     private val mContext: Context = context
@@ -28,8 +29,8 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
-        return MainEntityViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.detail_entity_viewholder, parent, false), recyclerViewClickListener);
+        val binding = DetailEntityViewholderBinding.inflate(LayoutInflater.from(mContext))
+        return MainEntityViewHolder(binding, recyclerViewClickListener);
     }
 
     override fun onBindViewHolder(holder: MainEntityViewHolder,position: Int ) {

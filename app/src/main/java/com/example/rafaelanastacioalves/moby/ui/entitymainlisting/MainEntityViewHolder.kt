@@ -5,26 +5,22 @@ import android.graphics.drawable.StateListDrawable
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.rafaelanastacioalves.moby.R
+import com.example.rafaelanastacioalves.moby.databinding.DetailEntityViewholderBinding
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.listeners.RecyclerViewClickListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.detail_entity_viewholder.view.*
 
-class MainEntityViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), View.OnClickListener, LayoutContainer{
+class MainEntityViewHolder(private val binding: DetailEntityViewholderBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener{
 
     lateinit private var aRecyclerViewListener: RecyclerViewClickListener
 
 
-    constructor(itemView: View , clickListener: RecyclerViewClickListener) : this(itemView) {
+    constructor(binding: DetailEntityViewholderBinding , clickListener: RecyclerViewClickListener) : this(binding) {
         this.aRecyclerViewListener = clickListener
-
-
     }
     init {
-        itemView.detail_container.setOnClickListener(this)
+        binding.detailContainer.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -33,12 +29,12 @@ class MainEntityViewHolder(override val containerView: View) : RecyclerView.View
 
     fun bind(aMainEntity: MainEntity, context: Context) {
 
-        itemView.entity_detail_title_textview.setText(aMainEntity.title);
+        binding.entityDetailTitleTextview.setText(aMainEntity.title);
         val placeholderList: StateListDrawable= context.getResources().getDrawable(R.drawable.ic_placeholder_map_selector) as StateListDrawable;
         Picasso.get()
                 .load(aMainEntity.imageUrl)
                 .placeholder(placeholderList)
-                .into(itemView.main_entity_imageview as ImageView);
+                .into(binding.mainEntityImageview as ImageView);
 
 
     }

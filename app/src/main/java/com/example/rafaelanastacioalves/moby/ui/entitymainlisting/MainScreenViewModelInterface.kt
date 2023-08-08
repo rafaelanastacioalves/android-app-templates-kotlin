@@ -1,6 +1,5 @@
 package com.example.rafaelanastacioalves.moby.ui.entitymainlisting
 
-import androidx.compose.runtime.toMutableStateList
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import kotlinx.coroutines.flow.Flow
@@ -14,9 +13,7 @@ interface MainScreenViewModelInterface {
         status: Status = Status.LOADING,
         data: List<MainEntity>? = null,
         message: String? = null,
-    ) : Resource<List<MainEntity>>(status, data, message) {
+    ) : Resource<List<MainEntity>>(status, data, message)
 
-        val stateList = data.orEmpty().toMutableStateList()
-    }
 
 }
