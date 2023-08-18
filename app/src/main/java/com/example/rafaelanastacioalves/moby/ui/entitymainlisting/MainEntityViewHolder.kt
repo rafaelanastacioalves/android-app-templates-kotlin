@@ -34,7 +34,7 @@ class MainEntityViewHolder(private val binding: DetailEntityViewholderBinding) :
         Picasso.get()
                 .load(aMainEntity.imageUrl)
                 .placeholder(placeholderList)
-                .into(binding.mainEntityImageview as ImageView);
+                .into(binding.mainEntityImageview);
 
 
     }

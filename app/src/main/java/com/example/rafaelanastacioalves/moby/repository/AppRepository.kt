@@ -7,49 +7,55 @@ import com.example.rafaelanastacioalves.moby.repository.database.AppDataBase
 import com.example.rafaelanastacioalves.moby.repository.database.DAO
 import com.example.rafaelanastacioalves.moby.repository.http.APIClient
 import com.example.rafaelanastacioalves.moby.repository.http.ServiceGenerator
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 object AppRepository {
     private val appDao: DAO = AppDataBase.getInstance().appDAO()
     var apiClient: APIClient = ServiceGenerator.createService(APIClient::class.java);
 
-    suspend fun mainEntity(): Resource<List<MainEntity>> {
-        return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun fecthFromHttp(): List<MainEntity>? {
+    suspend fun mainEntity(): Flow<Resource<List<MainEntity>>> {
+        return flow {
+            emit(object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
+                override suspend fun fecthFromHttp(): List<MainEntity>? {
 
-                return apiClient.getMainEntityList()
-            }
-
-            override suspend fun getFromDB(): List<MainEntity>? {
-                val mainEntityList = appDao.getMainEntityList()
-                return if(mainEntityList.isNotEmpty()){
-                    mainEntityList
-                }else{
-                    null
+                    return apiClient.getMainEntityList()
                 }
-            }
 
-            override fun saveIntoDB(resultData: List<MainEntity>?) {
-                appDao.saveMainEntityList(resultData)
-            }
+                override suspend fun getFromDB(): List<MainEntity>? {
+                    val mainEntityList = appDao.getMainEntityList()
+                    return if (mainEntityList.isNotEmpty()) {
+                        mainEntityList
+                    } else {
+                        null
+                    }
+                }
 
-        }.fromHttpAndDB()
+                override fun saveIntoDB(resultData: List<MainEntity>?) {
+                    appDao.saveMainEntityList(resultData)
+                }
+
+            }.fromHttpAndDB())
+        }
     }
 
-    suspend fun mainEntityAdditional(): Resource<List<MainEntity>> {
-        return object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
-            override suspend fun fecthFromHttp(): List<MainEntity>? {
-                return apiClient.getMainEntityListAdditional()
-            }
+    suspend fun mainEntityAdditional(): Flow<Resource<List<MainEntity>>> {
+        return flow {
+            emit(object : NetworkBoundResource<List<MainEntity>, List<MainEntity>>() {
+                override suspend fun fecthFromHttp(): List<MainEntity>? {
+                    return apiClient.getMainEntityListAdditional()
+                }
 
-            override suspend fun getFromDB(): List<MainEntity>? {
-                TODO("Not yet implemented")
-            }
+                override suspend fun getFromDB(): List<MainEntity>? {
+                    TODO("Not yet implemented")
+                }
 
-            override fun saveIntoDB(resultData: List<MainEntity>?) {
-                TODO("Not yet implemented")
-            }
+                override fun saveIntoDB(resultData: List<MainEntity>?) {
+                    TODO("Not yet implemented")
+                }
 
-        }.fromHttpOnly()
+            }.fromHttpOnly())
+        }
     }
 
     suspend fun entityDetails(requestId: String): Resource<EntityDetails> {

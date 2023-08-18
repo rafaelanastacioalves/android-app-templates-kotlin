@@ -29,7 +29,7 @@ class MainEntityAdapter(context: Context) : RecyclerView.Adapter<MainEntityViewH
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainEntityViewHolder  {
-        val binding = DetailEntityViewholderBinding.inflate(LayoutInflater.from(mContext))
+        val binding = DetailEntityViewholderBinding.inflate(LayoutInflater.from(mContext),parent, false)
         return MainEntityViewHolder(binding, recyclerViewClickListener);
     }
 

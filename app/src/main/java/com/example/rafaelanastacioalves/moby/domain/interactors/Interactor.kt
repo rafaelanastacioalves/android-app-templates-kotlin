@@ -2,9 +2,11 @@ package com.example.rafaelanastacioalves.moby.domain.interactors
 
 import com.example.rafaelanastacioalves.moby.R
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 
 abstract class Interactor<out T, in R : Interactor.RequestValues> {
@@ -18,7 +20,7 @@ abstract class Interactor<out T, in R : Interactor.RequestValues> {
 
         return flow<T> {
             run(requestValue = params, flowCollector = this)
-        }
+        }.flowOn(Dispatchers.IO)
     }
 
     interface RequestValues

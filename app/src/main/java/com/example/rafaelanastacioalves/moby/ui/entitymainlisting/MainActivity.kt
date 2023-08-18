@@ -43,14 +43,10 @@ class MainActivity : AppCompatActivity(), RecyclerViewClickListener{
         super.onCreate(savedInstanceState)
         setupViews()
         setupRecyclerView()
-        loadData()
         subscribe()
 
     }
 
-    private fun loadData() {
-        mainScreenViewModel.loadDataIfNecessary()
-    }
 
     /**
      * Here we call a State Flow from viewModel in a secure manner so

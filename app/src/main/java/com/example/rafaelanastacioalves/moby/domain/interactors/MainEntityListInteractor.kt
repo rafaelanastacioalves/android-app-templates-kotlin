@@ -4,12 +4,11 @@ import android.util.Log
 import com.example.rafaelanastacioalves.moby.domain.entities.MainEntity
 import com.example.rafaelanastacioalves.moby.domain.entities.Resource
 import com.example.rafaelanastacioalves.moby.repository.AppRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.emitAll
 
 class MainEntityListInteractor :
     Interactor<Resource<List<MainEntity>>, MainEntityListInteractor.RequestValues>() {
@@ -42,22 +41,16 @@ class MainEntityListInteractor :
     ) {
 
 
-        withContext(Dispatchers.IO) {
+        // in this examaple we could call sequentially or wait for one result so we get some data to make another call, just saying...
+                Log.d(
+                    this@MainEntityListInteractor.javaClass.simpleName,
+                    "Fetching from repository..."
+                )
+        val flowOne = appRepository.mainEntity()
+        val flowTwo = appRepository.mainEntityAdditional()
 
-            // in this examaple we could call sequentially or wait for one result so we get some data to make another call, just saying...
-//                Log.d(
-//                    this@MainEntityListInteractor.javaClass.simpleName,
-//                    "Fetching from repository..."
-//                )
-                val deferredOne = async { appRepository.mainEntity() }
-                val deferredTwo = async { appRepository.mainEntityAdditional() }
-
-                val resultOne: Resource<List<MainEntity>> = deferredOne.await()
-                val resultTwo: Resource<List<MainEntity>> = deferredTwo.await()
-//                Log.d(
-//                    this@MainEntityListInteractor.javaClass.simpleName,
-//                    "Fetch from repository ok. Going into datavalidation and emitting)"
-//                )
+        val combineFlow: Flow<Resource<List<MainEntity>>> =
+            combineTransform(flowOne, flowTwo) { resultOne, resultTwo ->
                 if (resultOne.status == Resource.Status.SUCCESS && resultTwo.status == Resource.Status.SUCCESS
                     && resultOne.data != null && resultTwo.data != null
                 ) {
@@ -65,31 +58,32 @@ class MainEntityListInteractor :
                     val result = Resource.success(finalList)
                     Log.d(
                         this@MainEntityListInteractor.javaClass.simpleName,
-                        "Final Result SUCCESS:\n resultOne error: ${resultOne.status} \n resultTwo error: ${resultTwo.status})"
+                        "Final Result SUCCESS:\n resultOne status: ${resultOne.status} \n resultTwo status: ${resultTwo.status})"
                     )
 
-                    withContext(Dispatchers.Main){
-                        flowCollector.emit(
-                            result
-                        )
-                    }
+                    emit(result)
 
-                    return@withContext
+                    return@combineTransform
                 }
                 Log.e(
                     this@MainEntityListInteractor.javaClass.simpleName,
                     "Something went wrong:\n resultOne error: ${resultOne.message} \n resultTwo error: ${resultTwo.message})"
                 )
-                withContext(Dispatchers.Main){
-                    flowCollector.emit(
-                        Resource.error(
-                            Resource.Status.GENERIC_ERROR,
-                            null,
-                            "Something went wrong:\n resultOne error: ${resultOne.message} \n resultTwo error: ${resultTwo.message})"
-                        )
+                emit(
+                    Resource.error(
+                        Resource.Status.GENERIC_ERROR,
+                        null,
+                        "Something went wrong:\n resultOne error: ${resultOne.message} \n resultTwo error: ${resultTwo.message})"
                     )
-                }
-        }
+                )
+
+            }
+
+        flowCollector.emitAll(combineFlow)
+//                Log.d(
+//                    this@MainEntityListInteractor.javaClass.simpleName,
+//                    "Fetch from repository ok. Going into datavalidation and emitting)"
+//                )
 
 
     }
